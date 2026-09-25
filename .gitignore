@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Python tooling caches
+.ruff_cache/
+__pycache__/
+
+# Keep local pi MCP configuration out of source control (may hold auth metadata)
+.pi/mcp.json

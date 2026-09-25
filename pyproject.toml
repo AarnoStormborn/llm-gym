@@ -1,0 +1,29 @@
+[project]
+name = "llm-gym"
+version = "0.1.0"
+description = "Hands-on LLM fine-tuning and post-training exercises"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.2",
+    "datasets>=3.2",
+    "evaluate>=0.4.3",
+    "ipykernel>=6.29",
+    "jupyterlab>=4.3",
+    "matplotlib>=3.10",
+    "pandas>=2.2",
+    "peft>=0.14",
+    "pydantic>=2.10",
+    "scikit-learn>=1.6",
+    "seaborn>=0.13",
+    "sentencepiece>=0.2",
+    "torch>=2.5",
+    "transformers>=4.47",
+    "trl>=0.14",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.9",
+]
