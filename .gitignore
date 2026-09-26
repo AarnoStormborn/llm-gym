@@ -12,6 +12,13 @@ wheels/
 # Python tooling caches
 .ruff_cache/
 __pycache__/
+.ipynb_checkpoints/
+
+# Training outputs and downloaded artifacts (store large files outside Git)
+outputs/
+checkpoints/
+models/
+wandb/
 
 # Keep local pi MCP configuration out of source control (may hold auth metadata)
 .pi/mcp.json

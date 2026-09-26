@@ -2,6 +2,30 @@
 
 Hands-on exercises for learning LLM fine-tuning and post-training, from small supervised tasks to preference optimization and reinforcement learning.
 
+> The Git repository is `llm-gym`; the requested directory layout was labeled `model-gym/`.
+
+## Repository layout
+
+```text
+configs/                   Shared training and evaluation configs
+datasets/                  Dataset manifests and small examples (not model/data dumps)
+experiments/
+  sft/                     Supervised fine-tuning
+  lora/                    Parameter-efficient fine-tuning
+  dpo/                     Preference optimization
+  grpo/                    Group Relative Policy Optimization
+  rlvr/                    Reinforcement Learning with Verifiable Rewards
+environments/
+  wordle/                  Wordle task environment and reward logic
+src/model_gym/              Reusable Python package
+scripts/                    Utility and launch scripts
+Dockerfile                  CUDA-enabled Runpod training image
+pyproject.toml / uv.lock    Authoritative project and dependency lock
+requirements.txt            Pinned pip-compatible export from uv.lock
+```
+
+`requirements.txt` is generated from the lockfile. After changing dependencies, run `uv lock`, `uv sync`, then `scripts/export-requirements.sh`. Avoid editing the exported requirements directly.
+
 ## Environment
 
 This project uses Python 3.12 and [`uv`](https://docs.astral.sh/uv/).
@@ -29,7 +53,7 @@ uv run jupyter lab
 - JupyterLab, pandas, scikit-learn, matplotlib, and seaborn for exploration and evaluation
 - pytest and Ruff for tests and linting
 
-Dependency versions are captured in `uv.lock`. After changing `pyproject.toml`, run `uv lock` and `uv sync`.
+Dependency versions are captured in `uv.lock`. After changing `pyproject.toml`, run `uv lock`, `uv sync`, then `scripts/export-requirements.sh`.
 
 ## Runpod
 
