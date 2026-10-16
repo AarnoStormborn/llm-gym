@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An educational, source-linked roadmap for hands-on small-model fine-tuning, post-training, reinforcement learning, and evaluation.">
+  <title>LLM Gym — Post-Training Research Roadmap</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #192332;
+      --muted: #58677b;
+      --paper: #f5f7fb;
+      --card: #ffffff;
+      --line: #d9e1ec;
+      --accent: #2456a6;
+      --accent-soft: #eaf1ff;
+      --note: #fff8e8;
+      --note-line: #e8c875;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.58; }
+    a { color: var(--accent); text-underline-offset: .16em; }
+    a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px solid #f0a500; outline-offset: 3px; }
+    .page { width: min(1080px, calc(100% - 2rem)); margin: 0 auto; }
+    header { padding: 3.5rem 0 2rem; }
+    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; font-weight: 750; }
+    h1 { max-width: 850px; margin: .45rem 0 .8rem; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.08; letter-spacing: -.035em; }
+    h2 { margin: 0 0 .8rem; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -.02em; }
+    h3 { margin: 1.25rem 0 .35rem; font-size: 1.1rem; }
+    p { margin: .55rem 0 .9rem; }
+    .lede { max-width: 800px; color: var(--muted); font-size: 1.12rem; }
+    .tag { display: inline-block; margin: .25rem .35rem .25rem 0; padding: .24rem .6rem; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); background: #fff; font-size: .8rem; }
+    .notice { border: 1px solid var(--note-line); border-left: 5px solid #d09816; background: var(--note); border-radius: .7rem; padding: .9rem 1rem; margin: 1.2rem 0; }
+    nav { display: flex; flex-wrap: wrap; gap: .5rem; padding: .75rem 0 1.25rem; }
+    nav a { display: inline-block; background: var(--card); border: 1px solid var(--line); border-radius: 99px; padding: .35rem .72rem; text-decoration: none; font-size: .88rem; }
+    main { padding-bottom: 4rem; }
+    section { scroll-margin-top: 1rem; margin: 1.2rem 0; padding: clamp(1rem, 3vw, 1.6rem); background: var(--card); border: 1px solid var(--line); border-radius: 1rem; box-shadow: 0 8px 24px rgb(22 43 74 / 4%); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .8rem; }
+    .tile { border: 1px solid var(--line); border-radius: .75rem; padding: .85rem; background: #fbfcff; }
+    .tile strong { display: block; color: var(--accent); font-size: 1.03rem; }
+    .small { color: var(--muted); font-size: .9rem; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    th, td { padding: .7rem .65rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { color: #34435a; background: #f2f5fa; }
+    details { margin: .65rem 0; padding: .72rem .85rem; border: 1px solid var(--line); border-radius: .7rem; background: #fcfdff; }
+    summary { cursor: pointer; color: #203a62; font-weight: 700; }
+    details[open] summary { margin-bottom: .55rem; }
+    details p:last-child, details ul:last-child { margin-bottom: .1rem; }
+    ul, ol { padding-left: 1.3rem; }
+    li { margin: .32rem 0; }
+    .method { border-left: 3px solid #8daee4; padding-left: .75rem; margin: .8rem 0; }
+    .pill { white-space: nowrap; display: inline-block; padding: .12rem .48rem; background: var(--accent-soft); color: #204a8c; border-radius: 99px; font-size: .78rem; font-weight: 700; }
+    footer { color: var(--muted); padding: 0 0 3rem; font-size: .9rem; }
+    .refs li { margin: .5rem 0; overflow-wrap: anywhere; }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+    @media print { body { background: #fff; } section { box-shadow: none; break-inside: avoid; } nav { display: none; } details:not([open]) > :not(summary) { display: block; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="eyebrow">LLM Gym · Research brief · 2026-10-16</div>
+      <h1>A hands-on roadmap for LLM fine-tuning and post-training</h1>
+      <p class="lede">A progressive curriculum for learning the whole loop—data, training objectives, task environments, rewards, and evaluation—with small/open models and accessible or reproducible data. This is an educational plan, not a leaderboard or production recipe.</p>
+      <span class="tag">Progressive exercises</span><span class="tag">Small-model first</span><span class="tag">Evaluation-led</span><span class="tag">No training code included</span>
+      <div class="notice"><strong>Working principle:</strong> write the shared loaders, task rules, reward functions, evaluation adapters, and runners by hand when you start implementing them. Use mature libraries for model loading/training primitives only where they help you inspect rather than hide the learning objective. No datasets or model weights have been downloaded as part of this research.</div>
+      <nav aria-label="Research sections">
+        <a href="#overview">Overview</a><a href="#roadmap">Project sequence</a><a href="#data">Datasets</a><a href="#methods">Methods</a><a href="#architecture">Environments & runners</a><a href="#evaluation">Evaluation</a><a href="#benchmarks">Benchmarks</a><a href="#operations">Practical guardrails</a><a href="#sources">Sources</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="overview">
+        <h2>Recommendation at a glance</h2>
+        <div class="grid">
+          <div class="tile"><strong>Start with a baseline</strong><span class="small">Build the test cases and metrics before training; preserve the original model’s results.</span></div>
+          <div class="tile"><strong>Use synthetic data first</strong><span class="small">Generated invoices, tool fixtures, Wordle episodes, and exact-answer tasks are cheap and controllable.</span></div>
+          <div class="tile"><strong>Progress from SFT to RL</strong><span class="small">SFT → LoRA comparison → preferences/DPO → explicit rewards → GRPO/RLVR.</span></div>
+          <div class="tile"><strong>Keep every claim narrow</strong><span class="small">Report task scores, error cases, regressions, data/model provenance, compute, and limitations.</span></div>
+        </div>
+        <p>The strongest first exercise is <b>text-to-structured extraction on a small generated invoice corpus</b>. It offers exact ground truth, an easy-to-understand SFT objective, deterministic schema checks, and a private held-out set. CORD can later add OCR/layout complexity, but it is not a plain-text-only dataset. For tool calling, use a tiny local tool environment and test it independently before selecting a BFCL subset. For RL, start with a transparent verifier/reward and a short horizon; GRPO is an advanced exercise, not the first training loop.</p>
+        <p class="small">This synthesis combines six independently assigned research topics—project ideas, datasets, environments/runners, evaluation, fine-tuning techniques, and benchmarking—and checks central data claims against official cards or papers. Recheck licenses and pinned revisions at the point of use.</p>
+      </section>
+
+      <section id="roadmap">
+        <h2>Project sequence</h2>
+        <p>Each exercise should produce a reproducible comparison, not just a checkpoint. The model/task/data should stay small enough that you can inspect individual examples and explain what changed.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Stage</th><th>Exercise</th><th>What it teaches</th><th>Evaluation anchor</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>Baseline & measurement</td><td>Model/tokenizer/template, prompt splits, generation settings, a run manifest, and pre-training capability checks.</td><td>Small private test suite + behavioral examples.</td></tr>
+              <tr><td>1</td><td>Structured extraction SFT</td><td>Prompt/target construction, labels, cross-entropy, JSON/schema validity, exact and field-level scoring.</td><td>Unseen synthetic templates and field combinations; optional CORD follow-up.</td></tr>
+              <tr><td>2</td><td>Instruction/domain adaptation</td><td>Human-authored instruction data, task-specific formatting, generalization and regressions.</td><td>IFEval for verifiable constraints + private domain examples.</td></tr>
+              <tr><td>3</td><td>Full SFT vs LoRA</td><td>Trainable parameters, adapter placement/rank, memory, artifact size, and quality tradeoffs.</td><td>Same base, data, steps, prompts, and evaluation as Stage 1 or 2.</td></tr>
+              <tr><td>4</td><td>Tool-call SFT</td><td>Tool selection, schema-valid arguments, stateful execution, and end-task success.</td><td>Deterministic local tools + carefully selected BFCL tasks.</td></tr>
+              <tr><td>5</td><td>Preference optimization</td><td>Chosen/rejected examples, preference quality, reference policy, and DPO behavior.</td><td>Held-out preference pairs and task success; blind/randomized comparisons.</td></tr>
+              <tr><td>6</td><td>Custom reward on Wordle</td><td>Environment transitions, valid actions, reward design, sparse vs shaped reward, and reward hacking.</td><td>Seeded private puzzles; win rate, attempts, invalid actions, and edge cases.</td></tr>
+              <tr><td>7</td><td>RLVR / GRPO capstone</td><td>Rollouts, verifiers, group-relative advantages, optimization stability, and compute per success.</td><td>Held-out generated exact-answer tasks; compare SFT, preference tuning, and RL only where signals are fair.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details><summary>Why this order?</summary><p>First establish what the original model can do and how to measure it. SFT then teaches the basic training path; LoRA isolates parameter efficiency; DPO introduces preference data without an online rollout loop. Tool use adds execution and state. A game/reward task makes RL mechanics observable. GRPO comes last because generation groups, reward design, and rollout throughput add complexity and compute. The sequence is a teaching recommendation, not a universal ranking of methods. TRL documentation distinguishes the relevant SFT, DPO, and GRPO trainer interfaces [18–20].</p></details>
+      </section>
+
+      <section id="data">
+        <h2>Dataset shortlist</h2>
+        <p><b>Best immediate choice:</b> generate fake invoice/order text with exact JSON targets and keep the generator/templates private for evaluation. Never seed the exercise with real personal documents. Then add one well-documented public corpus at a time.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Candidate</th><th>Good fit</th><th>Access / terms</th><th>Recommendation</th></tr></thead>
+            <tbody>
+              <tr><td>Synthetic invoices & order emails</td><td>Structured extraction SFT and deterministic checks.</td><td>Generate from transparent templates; no external corpus license. Validate labels and hold out entire templates/vendors/field combinations.</td><td><span class="pill">Start here</span></td></tr>
+              <tr><td>CORD receipts</td><td>Post-OCR parsing, nested receipt fields, optional OCR/layout extension.</td><td>Official repo states CC BY 4.0; 1,000 annotated examples are split 800/100/100. The broader collection is described as over 11,000 Indonesian receipts. [2]</td><td>Optional small real-data follow-up; not a pure text-only benchmark.</td></tr>
+              <tr><td>No Robots</td><td>Human-written English instruction SFT, including extraction and other categories.</td><td>10,000 examples; Hub card lists 9,500 train / 500 test and CC-BY-NC-4.0. Non-commercial restriction applies; do not train on its test set. [1]</td><td>Good accessible, non-commercial instruction exercise.</td></tr>
+              <tr><td>HelpSteer2 + preference annotations</td><td>Reward-model basics or preference/DPO-style experiments; compare scalar ratings with pairwise preferences.</td><td>Hub card describes 21,362 human-rated samples and CC-BY-4.0; it also documents preference annotations. Sample a small subset and keep prompts split. [3][4]</td><td>Strong preference-learning candidate; inspect the exact files and split at the chosen revision.</td></tr>
+              <tr><td>xLAM Function Calling 60K</td><td>Tool-call SFT examples with structured tool schemas.</td><td>Hugging Face page is gated and says access requires accepting the corresponding license/conditions and citing APIGen. Exact terms need review after sign-in. [5]</td><td>Conditional optional data; begin with synthetic tool-call examples instead.</td></tr>
+              <tr><td>OASST1</td><td>Alternative human-authored conversation/instruction data.</td><td>Hub card describes 161,443 messages in 35 languages and ready train/validation splits; check the license displayed for the exact dataset revision before use. Split by conversation tree, not individual message. [6]</td><td>Accessible alternative, but broader and more familiar than a narrow custom corpus.</td></tr>
+              <tr><td>PubMedQA</td><td>Narrow scientific QA/domain adaptation.</td><td>Hub card lists MIT metadata and labeled/unlabeled/artificial configurations. Underlying abstracts can have separate source rights; verify exact content terms and avoid redistributing source texts. [7]</td><td>Conditional; keep benchmark test data held out and report possible pretraining exposure.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details><summary>Data-selection cautions and synthetic alternatives</summary>
+          <ul>
+            <li><b>FUNSD:</b> it is a small scanned-form benchmark (199 forms), useful for a visual/OCR extension, but I did not establish a clear permissive license from the sources reviewed. Do not select it until rights are checked. [8]</li>
+            <li><b>Wordle:</b> no external training corpus is required. Use a legally obtained or generated word list, deterministic rules, and seeded answer splits. Test duplicate-letter feedback and invalid actions before training.</li>
+            <li><b>RLVR:</b> generate integer arithmetic/string tasks with an exact verifier. Hold out generator rules, ranges, and seeds; inspect reward/answer disagreement. Avoid relying on a public benchmark test split for reward tuning.</li>
+            <li><b>Data governance:</b> store source, revision, license, split manifest, and transformation/generator version. Keep large datasets and model outputs outside Git. Public data does not automatically mean unrestricted redistribution or commercial use.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="methods">
+        <h2>Fine-tuning and post-training concepts</h2>
+        <div class="method"><b>SFT — supervised fine-tuning.</b> Learn target-token likelihood from demonstrations. Inspect the tokenizer/chat template, which tokens are masked from loss, and generated outputs—not just loss curves. Start with a tiny task and compare against the frozen base model [9][18].</div>
+        <div class="method"><b>LoRA / QLoRA — parameter-efficient tuning.</b> LoRA freezes pretrained weights and learns low-rank updates; it is a method for adapting parameters, not a separate task or dataset [10]. QLoRA adds a quantized frozen base and is primarily a memory-saving path; kernels and model/sequence choices still matter [11]. Compare full SFT and LoRA on identical data and prompts.</div>
+        <div class="method"><b>DPO — offline preference optimization.</b> Use prompt/chosen/rejected examples to favor preferred responses relative to a reference policy; it avoids training a separate reward model in the original formulation [12]. Preference quality and split hygiene are decisive. It is a useful first preference method, not proof that preferences generalize.</div>
+        <div class="method"><b>Reward-based RL / PPO.</b> Sample model behavior, score it with a reward, and update the policy. PPO is an algorithm; an RLHF pipeline can add a reward model and reference/KL control, bringing more parts to inspect [13][14]. Start with a deterministic, auditable reward on a toy task.</div>
+        <div class="method"><b>GRPO and RLVR.</b> GRPO compares a group of sampled completions for a prompt using their relative rewards and avoids a separate value model in the described method [15]. RLVR means the reward comes from verifiable outcomes (e.g., exact answer or valid solved game); it is not itself a unique optimizer. GRPO rollouts can be compute-heavy, and identical rewards within a group offer little ranking signal.</div>
+        <details><summary>Fair comparison checklist</summary>
+          <ul>
+            <li>Use the same base checkpoint, tokenizer, chat template, train/validation/test prompts, decoding configuration, and evaluation code.</li>
+            <li>Do not pretend data signals are identical: SFT uses demonstrations, DPO uses preferences, and RL uses sampled trajectories plus reward. Document examples/tokens/rollouts and search effort.</li>
+            <li>Keep an untouched final test set. Record seed, model/data revisions, config, hardware, wall time, generation count, and cost.</li>
+            <li>Compare base → SFT → LoRA replicate → DPO → reward-RL/GRPO only on tasks that can fairly support each signal. Include regressions and failure examples.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="architecture">
+        <h2>Environments, runners, and shared helpers</h2>
+        <p>Keep the learning boundaries visible. A useful conceptual pipeline is <b>source/provenance → validate/normalize → split → task/environment → model + trainer → evaluator → run record</b>. Each exercise can reuse the boundary contracts, while you hand-write the small, exercise-specific logic.</p>
+        <div class="grid">
+          <div class="tile"><strong>Write by hand first</strong><span class="small">Dataset validators and split manifests; deterministic extraction metrics; Wordle transitions/reward; local fake tools; task-specific evaluation and run summaries.</span></div>
+          <div class="tile"><strong>Use as inspectable primitives</strong><span class="small">PyTorch tensors/autograd; Transformers model/tokenizer and Trainer; PEFT adapters; TRL SFT/DPO/GRPO; Accelerate for device/distributed launch.</span></div>
+          <div class="tile"><strong>Use only when it fits</strong><span class="small">Gymnasium for sequential state/action environments such as Wordle. Plain document extraction does not need an RL environment API [16].</span></div>
+        </div>
+        <details><summary>Minimal runner boundaries</summary>
+          <ol>
+            <li><b>Data:</b> validate the raw record and target format before tokenization; retain source IDs and revisions.</li>
+            <li><b>Task:</b> extraction/instruction are prompt-target tasks; Wordle/tool tasks need deterministic state, action validation, reward, termination, and seeding.</li>
+            <li><b>Training:</b> separate baseline inference, training, checkpoint/adapters, and post-training evaluation. Make one training batch inspectable before scaling.</li>
+            <li><b>Evaluation:</b> one frozen test protocol shared across model variants; measure task success and invalid behavior separately.</li>
+            <li><b>Run record:</b> persist model/tokenizer/data/config versions, seed, hardware, wall time, and cost outside large model artifacts.</li>
+          </ol>
+          <p>Trainer and dataset APIs move. Use the versions in <code>uv.lock</code> as the project’s reproducibility anchor and check version-matched docs rather than copying online examples blindly [17–21].</p>
+        </details>
+      </section>
+
+      <section id="evaluation">
+        <h2>Testing and evaluation protocol</h2>
+        <ol>
+          <li><b>Freeze a baseline first:</b> model and tokenizer revision, prompt/template, decoding settings, task cases, evaluator version, and split.</li>
+          <li><b>Test infrastructure separately:</b> data/schema validation, one-batch forward/backward/update smoke test, save/reload, and unit tests for edge cases in tools, environment transitions, reward, termination, and timeouts.</li>
+          <li><b>Isolate data:</b> training, tuning, public benchmark, and private final holdout are distinct. Never tune reward weights or prompts on the final test set. Document contamination risk instead of claiming it has been eliminated [22].</li>
+          <li><b>Report behavior:</b> task success + format/validity + per-category errors + qualitative examples + base-to-tuned regressions. Training loss and reward are diagnostics, not the final capability claim.</li>
+          <li><b>Repeat and account:</b> seeds, runtime, tokens/episodes, hardware, and cost. For stochastic training, report multiple runs where feasible; small exploratory runs should be described as such [23][24].</li>
+        </ol>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Task</th><th>Useful measures</th><th>Failure mode to expose</th></tr></thead>
+            <tbody>
+              <tr><td>Structured extraction</td><td>Record exact match; field precision/recall/F1; schema-valid rate.</td><td>Valid JSON with incorrect values; missing vs invented fields.</td></tr>
+              <tr><td>Instruction following</td><td>Constraint pass rate and all-constraints-pass; separate domain accuracy.</td><td>One satisfied instruction hides another violated constraint.</td></tr>
+              <tr><td>Tools</td><td>Parse/schema validity; tool choice/arguments; execution and end-task success; turns per success.</td><td>Invalid calls, unnecessary calls, or correct syntax but wrong state.</td></tr>
+              <tr><td>Wordle/RL</td><td>Win rate, attempts, invalid actions, reward components, reward per episode.</td><td>Reward hacking, overfit answer list, or train reward without held-out success.</td></tr>
+              <tr><td>Preferences</td><td>Blind pairwise win/tie/loss and task metric on identical held-out prompts.</td><td>Length, order, or judge bias; a judge score mistaken for task competence.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details><summary>Statistical and judge caveats</summary><p>Use paired comparisons on the same prompts where possible; show per-seed/per-category results and uncertainty rather than overinterpreting small score changes. LLM-as-judge methods can have length/position or model-family biases; randomize response order and retain human or deterministic checks where feasible [25].</p></details>
+      </section>
+
+      <section id="benchmarks">
+        <h2>Benchmark map</h2>
+        <p>Keep three layers distinct: <b>unit tests</b> verify your code and task rules; <b>private/generated tests</b> check the exercise’s intended capability; <b>public benchmarks</b> support comparison only on their stated tasks.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>Suggested benchmark/protocol</th><th>Scope and caution</th></tr></thead>
+            <tbody>
+              <tr><td>Extraction</td><td>Private generated invoices; optional CORD held-out subset.</td><td>CORD includes OCR/layout information, so it is not an apples-to-apples text-only score. Avoid using its test split for training.</td></tr>
+              <tr><td>Instruction constraints</td><td>IFEval + private domain-specific constraints.</td><td>IFEval has 541 prompts and programmatically verifiable instruction constraints; it is not an overall helpfulness or factuality test [9].</td></tr>
+              <tr><td>Function calling</td><td>BFCL, pinned to a release and carefully scoped to a small subset + local fake-tool tests.</td><td>BFCL assesses function/tool-call accuracy, with distinct categories; report subset and category-level results, not just aggregate leaderboard score [26].</td></tr>
+              <tr><td>Multi-turn tool agents</td><td>τ-bench or ToolSandbox, later.</td><td>These require more stateful setup and repeated interactions; defer until local deterministic tools work [27][28].</td></tr>
+              <tr><td>Wordle</td><td>Project-owned seeded puzzle suite and heuristic/random baselines.</td><td>No canonical LLM Wordle benchmark was established in this review. Publish rules, word source, split, and seeds; evaluate held-out answers.</td></tr>
+              <tr><td>Reward models / preferences</td><td>RewardBench only for reward-model ranking; held-out blind pairs for a tuned policy.</td><td>RewardBench measures reward-model ranking behavior, not whether a policy learned the desired end task. Pairwise judge scores have their own biases [29][25].</td></tr>
+              <tr><td>RLVR</td><td>Private generated exact-answer suite; optional public sanity check.</td><td>Use a verifier independent of the training reward where possible. Avoid popular public test items as the only evidence.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="operations">
+        <h2>Practical guardrails and next decisions</h2>
+        <ul>
+          <li><b>Model selection:</b> choose a small/open checkpoint whose license, tokenizer/chat template, architecture, and current training-library support are clear. Record the exact revision; do not assume all “small” models support identical LoRA or GRPO paths.</li>
+          <li><b>Compute:</b> use local Apple Silicon for data, evaluator/environment tests, inference, and the smallest training smoke tests. GRPO’s repeated generations can dominate runtime; measure before renting a GPU. GPU prices depend on SKU, region, and time, so estimate from a chosen Runpod offering rather than hard-coding a generic cost.</li>
+          <li><b>Reproducibility:</b> version data manifests, generator seeds, model/tokenizer revisions, config, split, evaluator, and environment rules. Keep checkpoints, caches, and generated corpora out of Git.</li>
+          <li><b>Licensing:</b> CC-BY-NC data is non-commercial; gated data requires explicit acceptance; dataset cards may not settle rights for source documents. Do not publish raw data or model artifacts without reviewing terms.</li>
+          <li><b>Implementation scope:</b> this brief selects learning targets and research inputs; it intentionally does not create training scripts, loaders, environments, or benchmarks. Those are yours to implement when you ask.</li>
+        </ul>
+        <div class="notice"><b>Suggested first build:</b> baseline a small instruct model on a handwritten set of generated text invoices; evaluate schema validity and field-level exact match on held-out templates; then train a tiny SFT run and compare. Add CORD only after deciding whether OCR/layout is in scope and confirming that the desired data use is covered.</div>
+      </section>
+
+      <section id="sources">
+        <h2>Sources</h2>
+        <p class="small">Primary dataset cards, benchmark owners, framework documentation, and original papers are preferred. Claims in this brief are deliberately scoped to what the linked task or source documents.</p>
+        <details><summary>Datasets and task data</summary>
+          <ol class="refs">
+            <li id="ref-1"><a href="https://huggingface.co/datasets/HuggingFaceH4/no_robots" target="_blank" rel="noopener noreferrer">No Robots dataset card</a> — 10,000 human-written instruction examples, 9,500/500 train/test, CC-BY-NC-4.0.</li>
+            <li id="ref-2"><a href="https://raw.githubusercontent.com/clovaai/cord/master/README.md" target="_blank" rel="noopener noreferrer">CORD official README</a> — CC BY 4.0, collection description, annotation schema and 800/100/100 annotated split; <a href="https://huggingface.co/datasets/naver-clova-ix/cord-v2" target="_blank" rel="noopener noreferrer">Hugging Face CORD v2</a>.</li>
+            <li id="ref-3"><a href="https://huggingface.co/datasets/nvidia/HelpSteer2" target="_blank" rel="noopener noreferrer">HelpSteer2 dataset card</a> — CC-BY-4.0 ratings, data fields, and preference-annotation section.</li>
+            <li id="ref-4"><a href="https://arxiv.org/abs/2410.01257" target="_blank" rel="noopener noreferrer">HelpSteer2-Preference paper</a> — rationale and release of pairwise preference annotations.</li>
+            <li id="ref-5"><a href="https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k" target="_blank" rel="noopener noreferrer">xLAM Function Calling 60K Hub page</a> — gated access conditions; review the accepted terms before use.</li>
+            <li id="ref-6"><a href="https://huggingface.co/datasets/OpenAssistant/oasst1" target="_blank" rel="noopener noreferrer">OpenAssistant OASST1 dataset card</a> — corpus scale, language/tree structure and splits; confirm license metadata at the pinned revision.</li>
+            <li id="ref-7"><a href="https://huggingface.co/datasets/qiaojin/PubMedQA" target="_blank" rel="noopener noreferrer">PubMedQA dataset card</a> — available configurations and Hub license metadata.</li>
+            <li id="ref-8"><a href="https://guillaumejaume.github.io/FUNSD/" target="_blank" rel="noopener noreferrer">FUNSD project page</a> and <a href="https://arxiv.org/abs/1905.13538" target="_blank" rel="noopener noreferrer">original paper</a> — task/data description; license needs separate confirmation.</li>
+          </ol>
+        </details>
+        <details><summary>Benchmarks and evaluation</summary>
+          <ol class="refs" start="9">
+            <li id="ref-9"><a href="https://arxiv.org/abs/2311.07911" target="_blank" rel="noopener noreferrer">IFEval paper</a> and <a href="https://huggingface.co/datasets/google/IFEval" target="_blank" rel="noopener noreferrer">dataset card</a> — verifiable instruction constraints, 541 prompts, dataset license metadata.</li>
+            <li id="ref-25"><a href="https://arxiv.org/abs/2404.04475" target="_blank" rel="noopener noreferrer">Length-Controlled AlpacaEval</a> — length-bias caveat for LLM-as-judge preference evaluation.</li>
+            <li id="ref-26"><a href="https://gorilla.cs.berkeley.edu/leaderboard.html" target="_blank" rel="noopener noreferrer">Berkeley Function Calling Leaderboard (BFCL)</a> and <a href="https://openreview.net/forum?id=2GmDdhBdDk" target="_blank" rel="noopener noreferrer">BFCL paper</a> — function-calling benchmark scope and categories.</li>
+            <li id="ref-27"><a href="https://arxiv.org/abs/2406.12045" target="_blank" rel="noopener noreferrer">τ-bench paper</a> — multi-turn tool-agent evaluation with simulated user/tool interaction.</li>
+            <li id="ref-28"><a href="https://aclanthology.org/2025.findings-naacl.65/" target="_blank" rel="noopener noreferrer">ToolSandbox paper</a> — stateful tool-use evaluation setting.</li>
+            <li id="ref-29"><a href="https://arxiv.org/abs/2403.13787" target="_blank" rel="noopener noreferrer">RewardBench paper</a> — reward-model evaluation scope.</li>
+            <li id="ref-22"><a href="https://arxiv.org/abs/2402.15938" target="_blank" rel="noopener noreferrer">Data contamination and trustworthy LLM evaluation survey</a> — contamination risks and evaluation caveats.</li>
+            <li id="ref-23"><a href="https://arxiv.org/abs/1709.06560" target="_blank" rel="noopener noreferrer">Deep Reinforcement Learning that Matters</a> — reproducibility and seed sensitivity.</li>
+            <li id="ref-24"><a href="https://arxiv.org/abs/1806.08295" target="_blank" rel="noopener noreferrer">How Many Random Seeds? Statistical Power Analysis in Deep RL</a> — uncertainty and seed-count considerations.</li>
+          </ol>
+        </details>
+        <details><summary>Methods, environments, and framework documentation</summary>
+          <ol class="refs" start="10">
+            <li id="ref-10"><a href="https://arxiv.org/abs/2106.09685" target="_blank" rel="noopener noreferrer">LoRA paper</a> — low-rank adaptation with frozen base weights; see also <a href="https://huggingface.co/docs/peft/en/package_reference/lora" target="_blank" rel="noopener noreferrer">PEFT LoRA reference</a>.</li>
+            <li id="ref-11"><a href="https://arxiv.org/abs/2305.14314" target="_blank" rel="noopener noreferrer">QLoRA paper</a> — quantized frozen base and adapter training.</li>
+            <li id="ref-12"><a href="https://arxiv.org/abs/2305.18290" target="_blank" rel="noopener noreferrer">DPO paper</a> — direct preference optimization objective.</li>
+            <li id="ref-13"><a href="https://arxiv.org/abs/1707.06347" target="_blank" rel="noopener noreferrer">PPO paper</a> — clipped policy optimization.</li>
+            <li id="ref-14"><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener noreferrer">InstructGPT paper</a> — demonstration, preference, reward-model and PPO pipeline.</li>
+            <li id="ref-15"><a href="https://arxiv.org/abs/2402.03300" target="_blank" rel="noopener noreferrer">DeepSeekMath</a> — GRPO proposal and group-relative reward formulation.</li>
+            <li id="ref-16"><a href="https://gymnasium.farama.org/api/env/" target="_blank" rel="noopener noreferrer">Gymnasium environment API</a> — seeded reset/step, observations, reward, termination/truncation.</li>
+            <li id="ref-17"><a href="https://huggingface.co/docs/transformers/en/main_classes/trainer" target="_blank" rel="noopener noreferrer">Transformers Trainer docs</a> — model/dataset/collator/training interfaces.</li>
+            <li id="ref-18"><a href="https://huggingface.co/docs/trl/en/sft_trainer" target="_blank" rel="noopener noreferrer">TRL SFT Trainer docs</a>.</li>
+            <li id="ref-19"><a href="https://huggingface.co/docs/trl/en/dpo_trainer" target="_blank" rel="noopener noreferrer">TRL DPO Trainer docs</a>.</li>
+            <li id="ref-20"><a href="https://huggingface.co/docs/trl/en/grpo_trainer" target="_blank" rel="noopener noreferrer">TRL GRPO Trainer docs</a>.</li>
+            <li id="ref-21"><a href="https://huggingface.co/docs/accelerate/en/index" target="_blank" rel="noopener noreferrer">Accelerate docs</a> — PyTorch device and distributed execution.</li>
+            <li id="ref-30"><a href="https://json-schema.org/specification" target="_blank" rel="noopener noreferrer">JSON Schema specification</a> — structural validity checks for extracted outputs.</li>
+          </ol>
+        </details>
+      </section>
+    </main>
+    <footer>
+      <p>Prepared for the LLM Gym educational project. Recommendations are scoped, source-linked, and intended to guide later hands-on implementation. Public dataset availability, license terms, model support, and benchmark revisions can change; verify the exact artifact/revision before use.</p>
+    </footer>
+  </div>
+</body>
+</html>
